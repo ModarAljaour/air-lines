@@ -45,7 +45,7 @@ class TicketController
                 'date-s' => $date_s ,
                 'date-e' => $date_e
             ];
-            if($this->model->editTicket($_POST['id'],$data))
+            if($this->model->editTicket($_GET['id'],$data))
             {
                 echo "Ticket update successfully!";
             } else {
