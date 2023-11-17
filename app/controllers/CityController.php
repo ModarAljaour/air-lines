@@ -47,7 +47,7 @@ class CityController {
             if ($this->model->updateCity($id, $data)) {
                 echo "City updated successfully!";}
              else {
-                 echo "Failed to update user.";
+                 echo "Failed to update City.";
                  }
       
         }}
@@ -56,10 +56,9 @@ class CityController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id=$_POST['id'];}
             if ($this->model->deleteCity($id)) {
-      
                 echo "Delete done";
             } else {
-                 echo "Failed to Delete user.";
+                 echo "Failed to Delete City.";
              }
         }
 

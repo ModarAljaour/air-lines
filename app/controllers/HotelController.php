@@ -8,6 +8,12 @@ class HotelController {
     public function __construct($model) {
         $this->model = $model;
     }
+    public function index() {
+        $hotels = $this->model->getHotels();
+        var_dump($hotels);
+         echo "Done ";
+    }
+
     public function addHotel() {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $city_id=$_POST['city_id'];
@@ -43,7 +49,7 @@ public function updateHotel($id){
         if ($this->model->updateHotel($id, $data)) {
             echo "Hotel updated successfully!";}
            else {
-             echo "Failed to update user.";
+             echo "Failed to update Hotel.";
          }
 
     }}
