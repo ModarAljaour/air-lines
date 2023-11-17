@@ -10,7 +10,10 @@ class CompanyModel{
     {
         $this->db = $db;
     }
-
+    public function getcompanies()
+    {
+        return $this->db->get('companies');
+    }
     public function getCompany($id)
     {
             $this->db->where("id", $id);

@@ -12,7 +12,7 @@ class CompanyController{
 
     public function select()
     {
-       return $this->company->getCompany();
+       return $this->company->getcompanies();
     }
 
     public function addCompany()
@@ -24,7 +24,7 @@ class CompanyController{
             $data = [
                 "id" => "$company_id", 
                 "name" => "$name",
-                "phone" => "$phone",
+                "phone" => "$phone"
             ];
             if ($this->model->addcompany($data)) {
                 echo "Company add successfully!" ;
