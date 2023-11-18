@@ -44,7 +44,7 @@ class CompanyController{
                     $data = [
                 "company_id" => "$company_id" ,     
                 "name" => "$name",
-                "phone" => "$phone",
+                "phone" => "$phone"
                     ];    
                     if($this->model->editcompany($_GET['id'],$data))
                     {
