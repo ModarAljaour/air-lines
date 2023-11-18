@@ -24,7 +24,7 @@ class RateModel {
     
     }
     
-    public function editrate($data, $id)
+    public function editrate($id,$data)
     {
         $this->db->where("id", $id);
         return $this->db->update("rates", $data);
