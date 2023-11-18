@@ -1,5 +1,5 @@
 <?php
-namespace RateControlle;
+// namespace RateControlle;
 
 class RateController{
 public $rate;
