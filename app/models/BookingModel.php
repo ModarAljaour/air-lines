@@ -1,5 +1,5 @@
 <?php
-namespace bookingmodel;
+//namespace bookingmodel;
 class BookingModel {
     private $db;
 

@@ -1,5 +1,5 @@
 <?php
-namespace ticketcontroller;
+//namespace ticketcontroller;
 class TicketController
 {
     public function __construct($model) 
@@ -7,7 +7,11 @@ class TicketController
         $this->model = $model;
     }
     public function index() {
-        $users = $this->model->getTickets();
+        $tickets = $this->model->getTickets();
+        $json_a= isset($json_a)?$json_a:new stdclass();
+        $json_a->bookings=$tickets;
+        $json=json_encode($json_a);
+        print_r($json);
     }
     public function addTicket() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -23,12 +27,15 @@ class TicketController
             ];
 
             if ($this->model->addTicket($data)) {
-                echo "Ticket successfully!";
+                $json_a= isset($json_a)?$json_a:new stdclass();
+                $json_a->status="true";
+                echo $json=json_encode($json_a);
 
             } else {
-                echo "Failed to Ticket.";
+                $json_a= isset($json_a)?$json_a:new stdclass();
+                $json_a->status="false";
+                echo $json=json_encode($json_a);
             }
-        
         }
     }
     public function updatTicket()
@@ -47,9 +54,16 @@ class TicketController
             ];
             if($this->model->editTicket($_GET['id'],$data))
             {
-                echo "Ticket update successfully!";
-            } else {
-                echo "Failed to update Ticket.";
+                $json_a= isset($json_a)?$json_a:new stdclass();
+                $json_a->status="true";
+                $json_a->data=$data;
+                echo $json_a=json_encode($json_a);
+            } 
+            else  
+            {
+                $json_a= isset($json_a)?$json_a:new stdclass();
+                $json_a->status="false";
+                echo $json=json_encode($json_a);
             }
         }
     }
@@ -57,7 +71,14 @@ class TicketController
     {            
         if($this->model->deleteTicket($_GET['id']))
         {
-            echo "delete successfully";
+            $json_a= isset($json_a)?$json_a:new stdclass();
+            $json_a->status="true";
+            echo $json=json_encode($json_a);
+
+        } else {
+            $json_a= isset($json_a)?$json_a:new stdclass();
+            $json_a->status="false";
+            echo $json=json_encode($json_a);
         }
     }
 }

@@ -1,18 +1,34 @@
 <?php
-namespace bookingcontroller;
+//namespace bookingcontroller;
 class BookingController
 {
-    public function __construct($model) 
+    public function __construct() 
     {
+        require_once __DIR__ .'/../../config/config.php';
+        require_once __DIR__ . '/../../lib/DB/MysqliDb.php';
+        require_once __DIR__.'/../models/BookingModel.php';
+        $config = require __DIR__.'/../../config/config.php';
+        $db = new MysqliDb(
+            $config['db_host'],
+            $config['db_user'],
+            $config['db_pass'],
+            $config['db_name']
+        );
+        $model = new BookingModel($db);
         $this->model = $model;
     }
-    public function index() {
-        $users = $this->model->getBookings();
+    public function index() 
+    {
+        $booking = $this->model->getbookings();
+        $json_a= isset($json_a)?$json_a:new stdclass();
+        $json_a->bookings=$booking;
+        $json=json_encode($json_a);
+        print_r($json);
     }
     public function addBooking() {
-        echo "hello";
+        echo "this is add booking";
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $hotel_id=$_POST['hotel-id'];
+            $hotel_id=$_POST['hotel_id'];
             $customer_id=$_POST['customer_id'];
             $ticket_id=$_POST['ticket_id'];
             $date=$_POST['date'];
@@ -24,19 +40,24 @@ class BookingController
             ];
 
             if ($this->model->addBooking($data)) {
-                echo "Booking successfully!";
+                $json_a= isset($json_a)?$json_a:new stdclass();
+                $json_a->status="true";
+                echo $json=json_encode($json_a);
 
             } else {
-                echo "Failed to Booking.";
+                $json_a= isset($json_a)?$json_a:new stdclass();
+                $json_a->status="false";
+                echo $json=json_encode($json_a);
             }
         
         }
     }
     public function updatBooking()
     {
+        echo "this is update";
         if ($_SERVER['REQUEST_METHOD'] === 'POST')
         {
-            $hotel_id=$_POST['hotel-id'];
+            $hotel_id=$_POST['hotel_id'];
             $customer_id=$_POST['customer_id'];
             $ticket_id=$_POST['ticket_id'];
             $date=$_POST['date'];
@@ -48,9 +69,16 @@ class BookingController
             ];
             if($this->model->editBooking($_GET['id'],$data))
             {
-                echo "Booking update successfully!";
-            } else {
-                echo "Failed to update Booking.";
+                $json_a= isset($json_a)?$json_a:new stdclass();
+                $json_a->status="true";
+                $json_a->data=$data;
+                echo $json_a=json_encode($json_a);
+            } 
+            else  
+            {
+                $json_a= isset($json_a)?$json_a:new stdclass();
+                $json_a->status="false";
+                echo $json=json_encode($json_a);
             }
         }
     }
@@ -58,7 +86,14 @@ class BookingController
     {            
         if($this->model->deleteBooking($_GET['id']))
         {
-            echo "delete successfully";
+            $json_a= isset($json_a)?$json_a:new stdclass();
+            $json_a->status="true";
+            echo $json=json_encode($json_a);
+
+        } else {
+            $json_a= isset($json_a)?$json_a:new stdclass();
+            $json_a->status="false";
+            echo $json=json_encode($json_a);
         }
     }
 }
