@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 
 // require_once __DIR__ . '/app/controllers/CityController.php';
@@ -39,3 +40,5 @@ $controller = new HotelController($model);
 //$controller->deleteHotel(); 
 
 ?>
+=======
+>>>>>>> d2bbcd0986eeb40f40a61c37c971d79ad11b39df
