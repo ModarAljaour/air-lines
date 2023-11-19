@@ -9,7 +9,7 @@ class TicketController
     public function index() {
         $tickets = $this->model->getTickets();
         $json_a= isset($json_a)?$json_a:new stdclass();
-        $json_a->bookings=$tickets;
+        $json_a->tickets=$tickets;
         $json=json_encode($json_a);
         print_r($json);
     }
