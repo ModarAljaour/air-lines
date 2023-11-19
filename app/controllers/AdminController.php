@@ -1,5 +1,5 @@
 <?php
-
+// namespace app\controllers;
 class AdminController
 {
     private $model;
@@ -11,22 +11,22 @@ class AdminController
     public function index()
     {
         $admins = $this->model->getAdmin();
-
-        // $adminInfo = $this->model->getAdminByID(3);
-        // // $adminInfo = $this->model->getAdminByID($_POST['id']);
-        // foreach ($adminInfo as $admin) {
-        //     foreach ($admin as $key => $value) {
-        //         echo "<pre>";
-        //         print_r($admin);
-        //         echo "</pre>";
-        //         break;
-        //     }
-        // }
+        // $adminInfo = $this->model->getAdminByID($_POST['id']);
+        $json_r = isset($json_r) ? $json_r : new stdClass();
+        $json_r->admin = $admins;
+        $json_r->status = "true";
+        $json = json_encode($json_r);
+        echo '<pre>';
+        print_r($json);
+        echo '</pre>';
     }
     // ........... Get Admin By Id ...........
     public function getAdminByID()
     {
         $adminInfo = $this->model->getAdminByID($_POST['id']);
+        echo '<pre>';
+        print_r($adminInfo);
+        echo '</pre>';
     }
     public function addAdmin()
     {
@@ -42,17 +42,20 @@ class AdminController
                 'password' => $password
             ];
             if ($this->model->addAdmin($data)) {
-                echo "true add admin";
-                //header("REFRESH:0; URL=" . BASE_PATH);
+                $json_r = isset($json_r) ? $json_r : new stdClass();
+                $json_r->status = "true";
+                echo $json = json_encode($json_r);
             } else {
-                echo "Failed to add admin.";
+                $json_r = isset($json_r) ? $json_r : new stdClass();
+                $json_r->status = "false";
+                echo $json = json_encode($json_r);
             }
         }
     }
     // ........... Update Admin ..................
     public function updateAdmin()
     {
-        $update_admin = $this->model->getAdminByID($_POST['id']);
+        $update_admin = $this->model->getAdminByID($_GET['id']);
         // echo '<pre>';
         // print_r($update_admin);
         // echo '</pre>';
@@ -68,17 +71,27 @@ class AdminController
                 'password' => $password
             ];
 
-            if (!$this->model->updateAdmin($data, $_POST['id'])) {
-                echo '<br>true update admin';
-                // header("REFRESH:0; URL=" . BASE_PATH);
+            if (!$this->model->updateAdmin($data, $_GET['id'])) {
+                $json_r = isset($json_r) ? $json_r : new stdClass();
+                $json_r->status = "true";
+                echo  $json = json_encode($json_r);
             } else {
-                echo "Failed to edit admin";
+                $json_r = isset($json_r) ? $json_r : new stdClass();
+                $json_r->status = "false";
+                echo $json = json_encode($json_r);
             }
         }
     }
     public function deleteAdmin()
     {
-        $this->model->deleteAdmin($_POST['id']);
-        // header("REFRESH:0; URL=" . BASE_PATH);
+        if ($this->model->deleteAdmin($_GET['id'])) {
+            $json_r = isset($json_r) ? $json_r : new stdClass();
+            $json_r->status = "true delete";
+            echo $json = json_encode($json_r);
+        } else {
+            $json_r = isset($json_r) ? $json_r : new stdClass();
+            $json_r->status = "false delete";
+            echo  $json = json_encode($json_r);
+        }
     }
 }

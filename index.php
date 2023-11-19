@@ -1,13 +1,16 @@
 <?php
 require_once __DIR__ . '/lib/DB/MysqliDb.php';
-require_once __DIR__ . '/app/controllers/AdminController.php';
-require_once __DIR__ . '/app/models/AdminModel.php';
-require_once __DIR__ . '/app/controllers/CustomerController.php';
-require_once __DIR__ . '/app/models/CustomerModel.php';
+spl_autoload_register(function ($className) {
+    if (file_exists("app/models/$className.php")) {
+        require "app/models/" . $className . ".php";
+    }
+    if (file_exists("app/controllers/$className.php")) {
+        require "app/controllers/" . $className . ".php";
+    }
+});
 
-// $request =  $_SERVER['REQUEST_URI'];
+$request =  $_SERVER['REQUEST_URI'];
 // var_dump($request);
-// define('BASE_PATH', '/');
 define('BASE_PATH', '/air-lines/');
 
 $config =  require_once __DIR__ . '/config/config.php';
@@ -21,7 +24,7 @@ $db = new MysqliDb(
 $box = (isset($_POST['box'])) ? $_POST['box'] : "admin";
 
 if ($box === 'admin') {
-
+    echo 'admin';
     $model = new AdminModel($db);
     $controller = new AdminController($model);
 
@@ -40,6 +43,7 @@ if ($box === 'admin') {
     }
 } elseif ($box === 'customer') {
 
+
     $model = new CustomerModel($db);
     $controller = new CustomerController($model);
 
@@ -56,7 +60,9 @@ if ($box === 'admin') {
     } elseif ($request == '/air-lines/delete') {
         $controller->deleteCustomer();
     }
-} elseif ($box === 'booking ') {
+} elseif ($box === 'booking') {
+
+    echo 'book';
 
     $model = new BookingModel($db);
     $controller = new BookingController($model);
@@ -74,7 +80,7 @@ if ($box === 'admin') {
     } elseif ($request == '/air-lines/delete') {
         $controller->deleteBooking();
     }
-} elseif ($box === 'ticket ') {
+} elseif ($box === 'ticket') {
 
     $model = new TicketModel($db);
     $controller = new TicketController($model);
@@ -88,27 +94,27 @@ if ($box === 'admin') {
     } elseif ($request == '/air-lines/add') {
         $controller->addTicket();
     } elseif ($request == '/air-lines/update') {
-        $controller->updatTicket();
+        $controller->updateTicket();
     } elseif ($request == '/air-lines/delete') {
         $controller->deleteTicket();
     }
-} elseif ($box === 'booking ') {
+} elseif ($box === 'rate') {
 
-    $model = new TicketModel($db);
-    $controller = new TicketController($model);
+    $model = new RateModel($db);
+    $controller = new RateController($model);
 
     $action = (isset($_POST['action'])) ? $_POST['action'] : "index";
 
     $request =  BASE_PATH . $action;
 
     if ($request == '/air-lines/index') {
-        $controller->index();
+        $controller->select();
     } elseif ($request == '/air-lines/add') {
-        $controller->addTicket();
+        $controller->addrate();
     } elseif ($request == '/air-lines/update') {
-        $controller->updatTicket();
+        $controller->updateRated($_GET['id']);
     } elseif ($request == '/air-lines/delete') {
-        $controller->deleteTicket();
+        $controller->deleterate($_GET['id']);
     }
 } elseif ($box === 'city') {
 
@@ -124,9 +130,9 @@ if ($box === 'admin') {
     } elseif ($request == '/air-lines/add') {
         $controller->addCity();
     } elseif ($request == '/air-lines/update') {
-        $controller->updateCity();
+        $controller->updateCity($_GET['id']);
     } elseif ($request == '/air-lines/delete') {
-        $controller->deleteCity();
+        $controller->deleteCity($_GET['id']);
     }
 } elseif ($box === 'hotel') {
 
@@ -142,16 +148,16 @@ if ($box === 'admin') {
     } elseif ($request == '/air-lines/add') {
         $controller->addHotel();
     } elseif ($request == '/air-lines/update') {
-        $controller->updateCity();
+        $controller->updateHotel();
     } elseif ($request == '/air-lines/delete') {
-        $controller->deleteHotel();
+        $controller->deleteHotel($_GET['id']);
     }
 } elseif ($box === 'company') {
 
     $model = new CompanyModel($db);
-    $controller = new CompanyController($rate);
+    $controller = new CompanyController($model);
 
-    $action = (isset($_POST['action'])) ? $_POST['action'] : "select";
+    $action = (isset($_POST['action'])) ? $_POST['action'] : "index";
 
     $request =  BASE_PATH . $action;
 
@@ -160,8 +166,8 @@ if ($box === 'admin') {
     } elseif ($request == '/air-lines/add') {
         $controller->addCompany();
     } elseif ($request == '/air-lines/update') {
-        $controller->updateCompany();
+        $controller->updateCompany($_GET['id']);
     } elseif ($request == '/air-lines/delete') {
-        $controller->deletecompany();
+        $controller->deletecompany($_GET['id']);
     }
 }

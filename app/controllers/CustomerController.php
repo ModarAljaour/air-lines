@@ -10,18 +10,18 @@ class CustomerController
     }
     public function index()
     {
-        $admins = $this->model->getCustomer();
-
-        // $adminInfo = $this->model->getAdminByID(3);
-        // // $adminInfo = $this->model->getAdminByID($_POST['id']);
-        // foreach ($adminInfo as $admin) {
-        //     foreach ($admin as $key => $value) {
-        //         echo "<pre>";
-        //         print_r($admin);
-        //         echo "</pre>";
-        //         break;
-        //     }
-        // }
+        $customers = $this->model->getCustomer();
+        // $customer =  $this->model->getCustomerByID($_POST['id']);
+        if ($customer =  $this->model->getCustomer()) {
+            $json_r = isset($json_r) ? $json_r : new stdClass();
+            $json_r->admin = $customer;
+            $json_r->status = "true";
+            echo $json = json_encode($json_r);
+        } else {
+            $json_r = isset($json_r) ? $json_r : new stdClass();
+            $json_r->status = "false";
+            echo $json = json_encode($json_r);
+        }
     }
     // ........... Get Admin By Id ...........
     public function getCustomerByID()
@@ -43,17 +43,20 @@ class CustomerController
                 'gender' => $gender,
             ];
             if ($this->model->addCustomer($data)) {
-                echo "true add Customer";
-                //header("REFRESH:0; URL=" . BASE_PATH);
+                $json_r = isset($json_r) ? $json_r : new stdClass();
+                $json_r->status = "true";
+                echo  $json = json_encode($json_r);
             } else {
-                echo "Failed to add Customer.";
+                $json_r = isset($json_r) ? $json_r : new stdClass();
+                $json_r->status = "false";
+                echo  $json = json_encode($json_r);
             }
         }
     }
     // ........... Update Admin .................
     public function updateCustomer()
     {
-        $update_customer = $this->model->getCustomerByID($_POST['id']);
+        $update_customer = $this->model->getCustomerByID($_GET['id']);
         // print_r($update_customer);   
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -69,19 +72,27 @@ class CustomerController
                 'gender' => $gender,
             ];
 
-            if (!$this->model->updateCustomer($data, $_POST['id'])) {
-                echo 'true update Customer';
-                // header("REFRESH:0; URL=" . BASE_PATH);
+            if (!$this->model->updateCustomer($data, $_GET['id'])) {
+                $json_r = isset($json_r) ? $json_r : new stdClass();
+                $json_r->status = "true update";
+                echo  $json = json_encode($json_r);
             } else {
-                echo "Failed to edit Customer.";
+                $json_r = isset($json_r) ? $json_r : new stdClass();
+                $json_r->status = "false";
+                echo  $json = json_encode($json_r);
             }
-        } else {
-            echo 'aa';
         }
     }
     public function deleteCustomer()
     {
-        $this->model->deleteCustomer($_POST['id']);
-        // header("REFRESH:0; URL=" . BASE_PATH);
+        if ($this->model->deleteCustomer($_POST['id'])) {
+            $json_r = isset($json_r) ? $json_r : new stdClass();
+            $json_r->status = "true";
+            echo $json = json_encode($json_r);
+        } else {
+            $json_r = isset($json_r) ? $json_r : new stdClass();
+            $json_r->status = "false";
+            echo  $json = json_encode($json_r);
+        }
     }
 }
