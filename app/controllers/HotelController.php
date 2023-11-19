@@ -10,7 +10,12 @@ class HotelController {
     }
     public function index() {
         $hotels = $this->model->getHotels();
-        var_dump($hotels);
+        $json_a=isset($json_a)?$json_a:new stdclass();
+        $json_a->status="true";
+        $json_a->hotels=$hotels;
+        $json=json_encode($json_a);
+        print_r($json);
+       // var_dump($hotels);
          echo "Done ";
     }
 
@@ -27,15 +32,26 @@ class HotelController {
         ];
 
         if ($this->model->addHotel($data)) {
+            $json_a=isset($json_a)?$json_a:new stdclass();
+            $json_a->status="true";
+            $json_a->data=$data;
+            $json=json_encode($json_a);
+            print_r($json);
            echo "Done .";
+         }}
+         else
+         {
+            $json_a=isset($json_a)?$json_a:new stdclass();
+            $json_a->status="false";
+            echo $json=json_encode($json_a);
          }
-    }
+    
 }
 
 
-public function updateHotel($id){
+public function updateHotel(){
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $id=$_POST['id'];
+        //$id=$_POST['id'];
         $city_id=$_POST['city_id'];
         $name=$_POST['name'];
         $phone=$_POST['phone'];
@@ -46,23 +62,43 @@ public function updateHotel($id){
           
         ];
 
-        if ($this->model->updateHotel($id, $data)) {
-            echo "Hotel updated successfully!";}
+        if ($this->model->updateHotel($_GET['id'], $data)) {
+            $json_a=isset($json_a)?$json_a:new stdclass();
+            $json_a->status="true";
+            $json_a->data=$data;
+            $json=json_encode($json_a);
+            print_r($json);
+            echo "Hotel updated successfully!";}}
            else {
+            
+            $json_a=isset($json_a)?$json_a:new stdclass();
+            $json_a->status="false";
+            echo $json=json_encode($json_a);
              echo "Failed to update Hotel.";
          }
 
-    }}
-
-public function deleteHotel($id){
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $id=$_POST['id'];}
-        if ($this->model->deleteHotel($id)) {
-            echo "Delete done";
     }
 
-}
+public function deleteHotel(){
+   // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $id=$_GET['id'];
+        if ($this->model->deleteHotel($id)) {
+            $json_a=isset($json_a)?$json_a:new stdclass();
+            $json_a->status="true";
+            $json_a->id=$id;
+            $json=json_encode($json_a);
+            print_r($json);
+            echo "Delete done";
+    }
+    else {
+            
+        $json_a=isset($json_a)?$json_a:new stdclass();
+        $json_a->status="false";
+        echo $json=json_encode($json_a);}
 
+
+
+}
 }
 ?>
 

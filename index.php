@@ -22,20 +22,20 @@ $db = new MysqliDb(
 // define('BASE_PATH','/air-lines/');
 //var_dump($request);
 
-//$model = new CityModel($db);
-//$controller = new CityController($model);
+// $model = new CityModel($db);
+// $controller = new CityController($model);
 
 //$controller->index();
 //$controller->addCity();
-//$controller->updateCity($_POST['id']);
-//$controller->deleteCity($_POST['id']); 
+ //$controller->updateCity();
+//  $controller->deleteCity(); 
                  
 ////////////Hotels
 $model = new HotelModel($db);
 $controller = new HotelController($model);
-// $controller->index();
+//$controller->index();
 //$controller->addHotel();
- //$controller->updateHotel($_POST['id']);
-//$controller->deleteHotel($_POST['id']); 
+ //$controller->updateHotel();
+//$controller->deleteHotel(); 
 
 ?>

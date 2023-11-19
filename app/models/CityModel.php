@@ -32,8 +32,8 @@ class CityModel {
     }
 
     public function deleteCity($id) {
-        $condition = $this->db->where('id' ,$id);
-        return $this->db->delete('cities', $condition);
+        $this->db->where('id' ,$id);
+        return $this->db->delete('cities', $id);
     }
 
 

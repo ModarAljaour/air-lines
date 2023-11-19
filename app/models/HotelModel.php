@@ -32,8 +32,8 @@ class HotelModel {
     }
 
     public function deleteHotel($id) {
-        $condition = $this->db->where('id' ,$id);
-        return $this->db->delete('hotels', $condition);
+       $this->db->where('id',$id);
+        return $this->db->delete('hotels', $id);
     }
 
 
