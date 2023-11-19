@@ -1,5 +1,5 @@
 <?php
-namespace ticketmodel;
+//namespace ticketmodel;
 class TicketModel {
     private $db;
 
