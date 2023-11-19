@@ -2,19 +2,8 @@
 //namespace bookingcontroller;
 class BookingController
 {
-    public function __construct() 
+    public function __construct($model) 
     {
-        require_once __DIR__ .'/../../config/config.php';
-        require_once __DIR__ . '/../../lib/DB/MysqliDb.php';
-        require_once __DIR__.'/../models/BookingModel.php';
-        $config = require __DIR__.'/../../config/config.php';
-        $db = new MysqliDb(
-            $config['db_host'],
-            $config['db_user'],
-            $config['db_pass'],
-            $config['db_name']
-        );
-        $model = new BookingModel($db);
         $this->model = $model;
     }
     public function index() 
